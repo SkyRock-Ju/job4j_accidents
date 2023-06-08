@@ -3,14 +3,16 @@ package ru.job4j.accidents.repository;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Accident;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
 public class AccidentRepository {
-    Map<Integer, Accident> accidents = new HashMap<>();
+    private final Map<Integer, Accident> accidents = new ConcurrentHashMap<>();
+    private final AtomicInteger nextId = new AtomicInteger(1);
 
     public List<Accident> findAll() {
         return accidents.values().stream().toList();
@@ -21,14 +23,22 @@ public class AccidentRepository {
     }
 
     public Accident save(Accident accident) {
+        accident.setId(nextId.incrementAndGet());
         return accidents.put(accident.getId(), accident);
     }
 
     public Accident update(Accident accident) {
-        return accidents.computeIfPresent(accident.getId(), (id, mapAccident) -> accidents.put(id, accident));
+        return accidents.computeIfPresent(accident.getId(), (id, mapAccident) -> {
+            var accidentNew = new Accident();
+            accidentNew.setId(accident.getId());
+            accidentNew.setName(accident.getName());
+            accidentNew.setText(accident.getText());
+            accidentNew.setAddress(accident.getAddress());
+            return accidentNew;
+        });
     }
 
-    public void deleteById(int id) {
-        accidents.computeIfPresent(id, (integer, accident) -> accidents.remove(id));
+    public boolean deleteById(int id) {
+        return accidents.remove(id) != null;
     }
 }

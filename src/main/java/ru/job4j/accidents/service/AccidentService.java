@@ -12,7 +12,7 @@ import java.util.Optional;
 public class AccidentService {
 
     @Autowired
-    AccidentRepository accidentRepository;
+    private AccidentRepository accidentRepository;
 
     public List<Accident> findAll() {
         return accidentRepository.findAll();
@@ -30,7 +30,7 @@ public class AccidentService {
         return accidentRepository.update(accident);
     }
 
-    public void deleteById(int id) {
-        accidentRepository.deleteById(id);
+    public boolean deleteById(int id) {
+        return accidentRepository.deleteById(id);
     }
 }

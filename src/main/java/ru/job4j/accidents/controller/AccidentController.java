@@ -11,7 +11,7 @@ import ru.job4j.accidents.service.AccidentService;
 @Controller
 @AllArgsConstructor
 public class AccidentController {
-    private final AccidentService accidents;
+    private final AccidentService accidentService;
 
     @GetMapping("/createAccident")
     public String viewCreateAccident() {
@@ -20,7 +20,7 @@ public class AccidentController {
 
     @PostMapping("/saveAccident")
     public String save(@ModelAttribute Accident accident) {
-        accidents.save(accident);
+        accidentService.save(accident);
         return "redirect:/index";
     }
 }
