@@ -34,6 +34,7 @@ public class AccidentRepository {
             accidentNew.setName(accident.getName());
             accidentNew.setText(accident.getText());
             accidentNew.setAddress(accident.getAddress());
+            accidentNew.setType(accident.getType());
             return accidentNew;
         });
     }
