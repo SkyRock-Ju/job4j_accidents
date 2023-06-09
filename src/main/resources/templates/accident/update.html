@@ -19,7 +19,7 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-item nav-link" href="#">Главная</a>
-        <a class="nav-item nav-link" th:href="@{/accidents}">Инциденты</a>
+        <a class="nav-item nav-link" th:href="@{/}">Инциденты</a>
         <a class="nav-item nav-link active" th:href="@{/addAccident}">Добавить Инцидент</a>
       </div>
     </div>
@@ -35,6 +35,35 @@
           <div class="form-group">
             <label for="name">Имя</label>
             <input type="text" class="form-control" name="name" id="name" th:field="*{name}">
+          </div>
+          <div class="col mb-3">
+            <label for="text" class="form-label"><b>Описание</b></label>
+            <input type="text" class="form-control" id="text" name="text" placeholder="Опишите инцидент" th:field="*{text}">
+          </div>
+          <div class="col mb-3">
+            <label for="address" class="form-label"><b>Адрес</b></label>
+            <input type="text" class="form-control" id="address" name="address" placeholder="Введите адрес" th:field="*{address}">
+          </div>
+          <div class="col mb-3">
+            <label for="type.id">Тип</label>
+            <select class="form-control" id="type.id" name="type.id" th:field="${accident.type.id}">
+              <option th:each="type : ${types}"
+                      th:text="${type.name}"
+                      th:value="${type.id}"
+                      th:selected="${accident.type}"
+              ></option>
+            </select>
+          </div>
+          <div class="col mb-3">
+            <label for="rIds">Статья</label>
+            <select class="form-control"
+                    id="rIds" name="rIds" size="4" multiple="multiple">
+              <option th:each="rule : ${rules}"
+                      th:value="${rule.id}"
+                      th:text="${rule.name}"
+                      th:selected="${accident.rules.contains(rule)}">
+              </option>
+            </select>
           </div>
           <button type="submit" class="btn btn-primary">Сохранить</button>
         </form>

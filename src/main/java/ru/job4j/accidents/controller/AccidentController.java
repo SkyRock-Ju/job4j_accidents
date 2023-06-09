@@ -1,5 +1,6 @@
 package ru.job4j.accidents.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,28 +10,28 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.model.AccidentType;
+import ru.job4j.accidents.model.Rule;
 import ru.job4j.accidents.service.AccidentService;
-
-import java.util.ArrayList;
-import java.util.List;
+import ru.job4j.accidents.service.AccidentTypeService;
+import ru.job4j.accidents.service.RuleService;
 
 @Controller
 @AllArgsConstructor
 public class AccidentController {
     private final AccidentService accidentService;
+    private final AccidentTypeService typeService;
+    private final RuleService ruleService;
 
     @GetMapping("/createAccident")
     public String viewCreateAccident(Model model) {
-        List<AccidentType> types = new ArrayList<>();
-        types.add(new AccidentType(1, "Две машины"));
-        types.add(new AccidentType(2, "Машина и человек"));
-        types.add(new AccidentType(3, "Машина и велосипед"));
-        model.addAttribute("types", types);
+        model.addAttribute("types", typeService.findAll());
+        model.addAttribute("rules", ruleService.findAll());
         return "accident/createAccident";
     }
 
     @PostMapping("/createAccident")
-    public String save(@ModelAttribute Accident accident) {
+    public String save(@ModelAttribute Accident accident, HttpServletRequest req) {
+        String[] ids = req.getParameterValues("rIds");
         accidentService.save(accident);
         return "redirect:/";
     }
