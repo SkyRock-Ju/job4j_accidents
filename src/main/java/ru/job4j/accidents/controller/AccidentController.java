@@ -9,11 +9,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accidents.model.Accident;
-import ru.job4j.accidents.model.AccidentType;
-import ru.job4j.accidents.model.Rule;
 import ru.job4j.accidents.service.AccidentService;
 import ru.job4j.accidents.service.AccidentTypeService;
 import ru.job4j.accidents.service.RuleService;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 @AllArgsConstructor
@@ -31,7 +32,9 @@ public class AccidentController {
 
     @PostMapping("/createAccident")
     public String save(@ModelAttribute Accident accident, HttpServletRequest req) {
-        String[] ids = req.getParameterValues("rIds");
+        String[] stringIds = req.getParameterValues("rIds");
+        List<Integer> ids = Arrays.stream(stringIds).map(Integer::parseInt).toList();
+        accident.setRules(ruleService.findByIds(ids));
         accidentService.save(accident);
         return "redirect:/";
     }
