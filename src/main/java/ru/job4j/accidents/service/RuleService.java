@@ -5,10 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Rule;
 import ru.job4j.accidents.repository.RuleRepository;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class RuleService {
@@ -24,8 +21,9 @@ public class RuleService {
         return ruleRepository.findById(id);
     }
 
-    public Set<Rule> findByIds(List<Integer> ids) {
-        var result = ids.stream().map(id -> findById(id).orElseThrow()).toList();
-        return new HashSet<>(result);
+    public Set<Rule> findByIds(String[] stringIds) {
+        return new HashSet<>(
+                ruleRepository.findByIds(
+                        Arrays.stream(stringIds).map(Integer::parseInt).toList()));
     }
 }

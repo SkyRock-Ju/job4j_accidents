@@ -3,6 +3,7 @@ package ru.job4j.accidents.repository;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Rule;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -26,6 +27,16 @@ public class RuleRepository {
 
     public Optional<Rule> findById(int id) {
         return Optional.of(rules.get(id));
+    }
+
+    public List<Rule> findByIds(List<Integer> ids) {
+        List<Rule> result = new ArrayList<>();
+        ids.forEach(id -> {
+            if (rules.containsKey(id)) {
+                result.add(rules.get(id));
+            }
+        });
+        return result;
     }
 
 }
