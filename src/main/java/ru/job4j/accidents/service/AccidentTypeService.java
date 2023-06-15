@@ -1,24 +1,23 @@
 package ru.job4j.accidents.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.AccidentType;
-import ru.job4j.accidents.repository.AccidentTypeRepository;
+import ru.job4j.accidents.repository.AccidentTypeJdbcTemplate;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class AccidentTypeService {
+    private final AccidentTypeJdbcTemplate typeRepository;
 
-    @Autowired
-    private AccidentTypeRepository typeRepository;
-
-    public List<AccidentType> findAll() {
+    public List<AccidentType> findAllTypes() {
         return typeRepository.findAll();
     }
 
-    public Optional<AccidentType> findById(int id) {
+    public Optional<AccidentType> findTypeById(int id) {
         return typeRepository.findById(id);
     }
 

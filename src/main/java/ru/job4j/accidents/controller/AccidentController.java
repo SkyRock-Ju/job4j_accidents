@@ -22,22 +22,24 @@ public class AccidentController {
 
     @GetMapping("/createAccident")
     public String viewCreateAccident(Model model) {
-        model.addAttribute("types", typeService.findAll());
-        model.addAttribute("rules", ruleService.findAll());
+        model.addAttribute("types", typeService.findAllTypes());
+        model.addAttribute("rules", ruleService.findAllRules());
         return "accident/createAccident";
     }
 
     @PostMapping("/createAccident")
     public String save(@ModelAttribute Accident accident, HttpServletRequest req) {
         String[] ids = req.getParameterValues("rIds");
-        accident.setRules(ruleService.findByIds(ids));
-        accidentService.save(accident);
+        accident.setRules(ruleService.findRulesByIds(ids));
+        accidentService.saveAccident(accident);
         return "redirect:/";
     }
 
     @GetMapping("/formUpdateAccident")
     public String update(@RequestParam("id") int id, Model model) {
-        var accidentOptional = accidentService.findById(id);
+        model.addAttribute("types", typeService.findAllTypes());
+        model.addAttribute("rules", ruleService.findAllRules());
+        var accidentOptional = accidentService.findAccidentById(id);
         if (accidentOptional.isEmpty()) {
             model.addAttribute("message", "Инцидент не найден");
             return "error/404";
@@ -48,7 +50,7 @@ public class AccidentController {
 
     @PostMapping("/updateAccident")
     public String update(@ModelAttribute Accident accident) {
-        accidentService.update(accident);
+        accidentService.updateAccident(accident);
         return "redirect:/";
     }
 }

@@ -1,27 +1,26 @@
 package ru.job4j.accidents.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Rule;
-import ru.job4j.accidents.repository.RuleRepository;
+import ru.job4j.accidents.repository.RuleJdbcTemplate;
 
 import java.util.*;
 
 @Service
+@AllArgsConstructor
 public class RuleService {
+    private final RuleJdbcTemplate ruleRepository;
 
-    @Autowired
-    private RuleRepository ruleRepository;
-
-    public List<Rule> findAll() {
+    public List<Rule> findAllRules() {
         return ruleRepository.findAll();
     }
 
-    public Optional<Rule> findById(int id) {
+    public Optional<Rule> findRuleById(int id) {
         return ruleRepository.findById(id);
     }
 
-    public Set<Rule> findByIds(String[] stringIds) {
+    public Set<Rule> findRulesByIds(String[] stringIds) {
         return new HashSet<>(
                 ruleRepository.findByIds(
                         Arrays.stream(stringIds).map(Integer::parseInt).toList()));
