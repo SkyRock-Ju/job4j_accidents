@@ -12,7 +12,7 @@ public interface RuleJpaRepository extends CrudRepository<Rule, Integer> {
 
     List<Rule> findAll();
 
-    @Query(   "FROM Rule "
+    @Query("FROM Rule "
             + "WHERE id IN :ids")
     Set<Rule> findByIds(@Param("ids") Set<Integer> rIds);
 }

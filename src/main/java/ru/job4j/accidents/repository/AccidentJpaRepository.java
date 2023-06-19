@@ -10,14 +10,14 @@ import java.util.Optional;
 
 public interface AccidentJpaRepository extends CrudRepository<Accident, Integer> {
 
-    @Query(   "FROM Accident AS ac "
+    @Query("FROM Accident AS ac "
             + "JOIN FETCH ac.type "
             + "JOIN FETCH ac.rules "
             + "ORDER BY ac.id "
             + "ASC")
     List<Accident> findAll();
 
-    @Query(   "FROM Accident ac "
+    @Query("FROM Accident ac "
             + "JOIN FETCH ac.type "
             + "JOIN FETCH ac.rules "
             + "WHERE ac.id = :id")
