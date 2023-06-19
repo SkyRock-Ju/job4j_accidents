@@ -49,7 +49,9 @@ public class AccidentController {
     }
 
     @PostMapping("/updateAccident")
-    public String update(@ModelAttribute Accident accident) {
+    public String update(@ModelAttribute Accident accident, HttpServletRequest req) {
+        String[] ids = req.getParameterValues("rIds");
+        accident.setRules(ruleService.findRulesByIds(ids));
         accidentService.updateAccident(accident);
         return "redirect:/";
     }

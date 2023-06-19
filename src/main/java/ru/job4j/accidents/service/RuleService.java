@@ -3,17 +3,17 @@ package ru.job4j.accidents.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Rule;
-import ru.job4j.accidents.repository.RuleJdbcTemplate;
+import ru.job4j.accidents.repository.RuleHibernateRepository;
 
 import java.util.*;
 
 @Service
 @AllArgsConstructor
 public class RuleService {
-    private final RuleJdbcTemplate ruleRepository;
+    private final RuleHibernateRepository ruleRepository;
 
     public List<Rule> findAllRules() {
-        return ruleRepository.findAll();
+        return ruleRepository.findAll().stream().toList();
     }
 
     public Optional<Rule> findRuleById(int id) {
