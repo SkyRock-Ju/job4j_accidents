@@ -3,17 +3,18 @@ package ru.job4j.accidents.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Rule;
-import ru.job4j.accidents.repository.RuleHibernateRepository;
+import ru.job4j.accidents.repository.RuleJpaRepository;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class RuleService {
-    private final RuleHibernateRepository ruleRepository;
+    private final RuleJpaRepository ruleRepository;
 
     public List<Rule> findAllRules() {
-        return ruleRepository.findAll().stream().toList();
+        return ruleRepository.findAll();
     }
 
     public Optional<Rule> findRuleById(int id) {
@@ -23,6 +24,8 @@ public class RuleService {
     public Set<Rule> findRulesByIds(String[] stringIds) {
         return new HashSet<>(
                 ruleRepository.findByIds(
-                        Arrays.stream(stringIds).map(Integer::parseInt).toList()));
+                        Arrays.stream(stringIds)
+                                .map(Integer::parseInt)
+                                .collect(Collectors.toSet())));
     }
 }

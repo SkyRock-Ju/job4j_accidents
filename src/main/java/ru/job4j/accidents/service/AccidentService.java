@@ -3,7 +3,7 @@ package ru.job4j.accidents.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Accident;
-import ru.job4j.accidents.repository.AccidentHibernateRepository;
+import ru.job4j.accidents.repository.AccidentJpaRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,22 +12,25 @@ import java.util.Optional;
 @AllArgsConstructor
 public class AccidentService {
 
-    private final AccidentHibernateRepository accidentRepository;
+    private final AccidentJpaRepository accidentRepository;
 
     public List<Accident> findAllAccidents() {
-        return accidentRepository.findAll().stream().toList();
+        return accidentRepository.findAll();
     }
 
     public Optional<Accident> findAccidentById(int id) {
         return accidentRepository.findById(id);
     }
 
-    public void saveAccident(Accident accident) {
-        accidentRepository.save(accident);
+    public Accident saveAccident(Accident accident) {
+        return accidentRepository.save(accident);
     }
 
-    public void updateAccident(Accident accident) {
-        accidentRepository.update(accident);
+    public Accident updateAccident(Accident accident) {
+        if (!accidentRepository.existsById(accident.getId())) {
+            throw new IllegalArgumentException("Accident not found");
+        }
+        return accidentRepository.save(accident);
     }
 
     public void deleteAccidentById(int id) {
