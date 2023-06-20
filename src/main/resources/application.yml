@@ -7,6 +7,8 @@ spring:
     multipart:
       max-file-size: 10MB
   mandatory-file-encoding: UTF-8
+  main:
+    allow-circular-references: true
   http:
     encoding:
       charset: UTF-8
