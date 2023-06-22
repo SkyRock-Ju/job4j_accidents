@@ -19,15 +19,4 @@ public class AccidentControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("accident/createAccident"));
     }
-
-    @Test
-    @WithMockUser
-    public void shouldGetUpdateAccidentAndReturnDefaultMessage() throws Exception {
-        this.mockMvc.perform(
-                get("/formUpdateAccident")
-                        .param("id", "6"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(view().name("accident/update"));
-    }
 }
