@@ -24,8 +24,8 @@ public class RegController {
                           Model model) {
         String errorMessage = null;
         if (error != null) {
-            errorMessage = "Username is already taken. " +
-                    "Try another username";
+            errorMessage = "Username is already taken. "
+                    + "Try another username";
         }
         model.addAttribute("regError", errorMessage);
         return "login/reg";
@@ -36,7 +36,7 @@ public class RegController {
         user.setEnabled(true);
         user.setPassword(encoder.encode(user.getPassword()));
         user.setAuthority(authorityService.findAuthorityByName("ROLE_USER"));
-        if(userService.findUserByName(user.getUsername()).isPresent()) {
+        if (userService.findUserByName(user.getUsername()).isPresent()) {
             return "redirect:/reg?error=true";
         }
         userService.save(user);
