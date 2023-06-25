@@ -10,7 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 public class LoginControllerTest extends AbstractControllerTest {
-/*
+
     @Test
     @WithMockUser
     public void shouldGetLoginAndReturnDefaultMessage() throws Exception {
@@ -18,5 +18,5 @@ public class LoginControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("login/login"));
-    }*/
+    }
 }
