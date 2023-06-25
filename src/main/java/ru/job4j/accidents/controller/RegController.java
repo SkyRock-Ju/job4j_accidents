@@ -1,6 +1,7 @@
 package ru.job4j.accidents.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,10 +37,11 @@ public class RegController {
         user.setEnabled(true);
         user.setPassword(encoder.encode(user.getPassword()));
         user.setAuthority(authorityService.findAuthorityByName("ROLE_USER"));
-        if (userService.findUserByName(user.getUsername()).isPresent()) {
+        try {
+            userService.save(user);
+        } catch (DataIntegrityViolationException e) {
             return "redirect:/reg?error=true";
         }
-        userService.save(user);
         return "redirect:/login";
     }
 }
