@@ -1,8 +1,6 @@
 package ru.job4j.accidents.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,15 +8,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accidents.model.User;
-import ru.job4j.accidents.service.AuthorityService;
 import ru.job4j.accidents.service.UserService;
 
 @Controller
 @AllArgsConstructor
 public class RegController {
-    private final PasswordEncoder encoder;
     private final UserService userService;
-    private final AuthorityService authorityService;
 
     @GetMapping("/reg")
     public String regPage(@RequestParam(value = "error", required = false) String error,
@@ -34,12 +29,7 @@ public class RegController {
 
     @PostMapping("/reg")
     public String regSave(@ModelAttribute User user) {
-        user.setEnabled(true);
-        user.setPassword(encoder.encode(user.getPassword()));
-        user.setAuthority(authorityService.findAuthorityByName("ROLE_USER"));
-        try {
-            userService.save(user);
-        } catch (DataIntegrityViolationException e) {
+        if (userService.save(user).isEmpty()) {
             return "redirect:/reg?error=true";
         }
         return "redirect:/login";
