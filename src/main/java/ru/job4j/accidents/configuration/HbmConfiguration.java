@@ -14,30 +14,30 @@ import ru.job4j.accidents.repository.CrudRepository;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-@Configuration
-@PropertySource("classpath:db.properties")
-@EnableTransactionManagement
+//@Configuration
+//@PropertySource("classpath:application.yml")
+//@EnableTransactionManagement
 public class HbmConfiguration {
 
-    @Bean
-    public LocalSessionFactoryBean sessionFactory(@Value("${hibernate.dialect}") String dialect, DataSource ds) {
+//    @Bean
+    public LocalSessionFactoryBean sessionFactory(@Value("${spring.datasource.hibernate.dialect}") String dialect, DataSource ds) {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(ds);
         sessionFactory.setPackagesToScan("ru.job4j.accidents.model");
         Properties cfg = new Properties();
-        cfg.setProperty("hibernate.dialect", dialect);
+        cfg.setProperty("spring.datasource.hibernate.dialect", dialect);
         sessionFactory.setHibernateProperties(cfg);
         return sessionFactory;
     }
 
-    @Bean
+//    @Bean
     public PlatformTransactionManager htx(SessionFactory sf) {
         HibernateTransactionManager tx = new HibernateTransactionManager();
         tx.setSessionFactory(sf);
         return tx;
     }
 
-    @Bean
+//    @Bean
     public CrudRepository crudRepository(SessionFactory sessionFactory) {
         return new CrudRepository(sessionFactory);
     }

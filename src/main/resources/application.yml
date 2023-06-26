@@ -1,0 +1,40 @@
+server:
+  port: 8081
+spring:
+  profiles:
+    active: prod
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+  main:
+    allow-circular-references: true
+  datasource:
+    postgres:
+      url: postgresql://127.0.0.1:5432/accidents
+      username: postgres
+      password: postgres
+      driver-class-name: org.postgresql.Driver
+    jdbc:
+      url: jdbc:postgresql://127.0.0.1:5432/accidents
+      username: postgres
+      password: postgres
+      driver: org.postgresql.Driver
+    hibernate:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+---
+#TEST
+spring:
+  profiles:
+    active: test
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+  datasource:
+    jpa:
+      url: jdbc:h2:./testdb;MODE=PostgreSQL;CASE_INSENSITIVE_IDENTIFIERS=TRUE;
+      username:
+      password:
+    hibernate:
+      dialect: org.hibernate.dialect.H2Dialect
