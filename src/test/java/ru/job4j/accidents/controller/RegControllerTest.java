@@ -1,5 +1,6 @@
 package ru.job4j.accidents.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -13,20 +14,20 @@ import ru.job4j.accidents.service.UserService;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 public class RegControllerTest extends AbstractControllerTest {
 
     @MockBean
-    private AuthorityService authorities;
-    @MockBean
-    private UserService users;
+    private UserService userService;
 
     @Test
     @WithMockUser
@@ -38,16 +39,18 @@ public class RegControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void thenPostRegSaveUserThenReturnRegPageErrorAndArgumentCaptureEquals() throws Exception {
+    void shouldSaveUserAndReturnRedirection() throws Exception {
         var authority = new Authority(1, "ROLE_USER");
         var user = new User(0, "password", "username", authority, true);
-        when(authorities.findAuthorityByName(authority.getAuthority())).thenReturn(authority);
-        when(users.save(user)).thenReturn(Optional.empty());
+        when(userService.save(user)).thenReturn(Optional.of(user));
         this.mockMvc.perform(post("/reg")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(user)))
+                        .param("username", "username")
+                        .param("password", "password"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/reg?error=true"));
+                .andExpect(view().name("redirect:/login"));
+        ArgumentCaptor<User> argument = ArgumentCaptor.forClass(User.class);
+        verify(userService).save(argument.capture());
+        assertThat(argument.getValue().getUsername(), is("username"));
     }
 }
