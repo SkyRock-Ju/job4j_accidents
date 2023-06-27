@@ -1,5 +1,6 @@
-package ru.job4j.accidents.helper;
+package ru.job4j.accidents.util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,4 +14,6 @@ import ru.job4j.accidents.AccidentsApplication;
 public abstract class AbstractControllerTest {
     @Autowired
     protected MockMvc mockMvc;
+    @Autowired
+    protected ObjectMapper mapper;
 }

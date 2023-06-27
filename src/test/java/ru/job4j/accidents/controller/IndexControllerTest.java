@@ -2,7 +2,7 @@ package ru.job4j.accidents.controller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.security.test.context.support.WithMockUser;
-import ru.job4j.accidents.helper.AbstractControllerTest;
+import ru.job4j.accidents.util.AbstractControllerTest;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

@@ -1,6 +1,8 @@
 package ru.job4j.accidents.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
 import java.util.Objects;
@@ -9,6 +11,8 @@ import java.util.Objects;
 @Table(name = "authorities")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Authority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
