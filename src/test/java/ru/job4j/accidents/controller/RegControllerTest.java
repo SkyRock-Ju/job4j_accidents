@@ -1,16 +1,13 @@
 package ru.job4j.accidents.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import ru.job4j.accidents.util.AbstractControllerTest;
 import ru.job4j.accidents.model.Authority;
 import ru.job4j.accidents.model.User;
-import ru.job4j.accidents.service.AuthorityService;
 import ru.job4j.accidents.service.UserService;
+import ru.job4j.accidents.util.AbstractControllerTest;
 
 import java.util.Optional;
 
@@ -39,6 +36,7 @@ public class RegControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @WithMockUser
     void shouldSaveUserAndReturnRedirection() throws Exception {
         var authority = new Authority(1, "ROLE_USER");
         var user = new User(0, "password", "username", authority, true);
@@ -52,5 +50,16 @@ public class RegControllerTest extends AbstractControllerTest {
         ArgumentCaptor<User> argument = ArgumentCaptor.forClass(User.class);
         verify(userService).save(argument.capture());
         assertThat(argument.getValue().getUsername(), is("username"));
+    }
+
+    @Test
+    @WithMockUser
+    void shouldSaveUserAndReturnErrorRedirection() throws Exception {
+        this.mockMvc.perform(post("/reg")
+                        .param("username", "username")
+                        .param("password", "password"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/reg?error=true"));
     }
 }
