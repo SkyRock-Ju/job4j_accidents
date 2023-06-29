@@ -17,6 +17,10 @@ Main page is a search page with table.
 - Spring boot
 - Thymeleaf
 - Bootstrap
+- Hibernate
+- Data JPA
+- JDBC
+- Spring Security
 
 ## Environment requirements
 - Java 17
