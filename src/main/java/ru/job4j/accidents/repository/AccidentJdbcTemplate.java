@@ -11,7 +11,7 @@ import ru.job4j.accidents.util.AccidentRowMapper;
 import java.sql.PreparedStatement;
 import java.util.*;
 
-//@Repository
+@Repository
 @AllArgsConstructor
 public class AccidentJdbcTemplate {
     private final JdbcTemplate jdbc;

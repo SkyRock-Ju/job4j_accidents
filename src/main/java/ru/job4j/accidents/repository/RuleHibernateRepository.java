@@ -7,7 +7,7 @@ import ru.job4j.accidents.model.Rule;
 import java.util.*;
 import java.util.stream.Collectors;
 
-//@Repository
+@Repository
 @AllArgsConstructor
 public class RuleHibernateRepository {
 

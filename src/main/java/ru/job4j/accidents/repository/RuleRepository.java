@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-//@Repository
+@Repository
 public class RuleRepository {
     private final Map<Integer, Rule> rules = new ConcurrentHashMap<>();
     private final AtomicInteger nextId = new AtomicInteger(1);

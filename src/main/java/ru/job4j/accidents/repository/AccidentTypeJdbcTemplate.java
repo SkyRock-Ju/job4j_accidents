@@ -8,7 +8,7 @@ import ru.job4j.accidents.model.AccidentType;
 import java.util.List;
 import java.util.Optional;
 
-//@Repository
+@Repository
 @AllArgsConstructor
 public class AccidentTypeJdbcTemplate {
     private final JdbcTemplate jdbc;
